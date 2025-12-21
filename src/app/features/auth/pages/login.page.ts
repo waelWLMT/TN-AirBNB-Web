@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthenticationService } from '../../../core/services/authentication.service';
 import { NgIf } from '@angular/common';
 
 
@@ -20,7 +20,7 @@ import { NgIf } from '@angular/common';
 })
 export class LoginPage {
 
-  private auth = inject(AuthService);
+  private auth = inject(AuthenticationService);
   private router = inject(Router);
 
   form = new FormGroup({

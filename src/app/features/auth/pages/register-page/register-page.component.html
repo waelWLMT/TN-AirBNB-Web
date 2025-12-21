@@ -1,0 +1,25 @@
+<div style="max-width: 400px; margin: auto; padding: 2rem; border: 1px solid #ddd;">
+      <h2>Register</h2>
+      
+      <form (ngSubmit)="register()">
+        <div>
+          <label>Email:</label>
+          <input type="email" [(ngModel)]="email" name="email" required />
+        </div>
+
+        <div>
+          <label>Mot de passe:</label>
+          <input type="password" [(ngModel)]="password" name="password" required />
+        </div>
+
+        <!-- Checkbox visible uniquement si l'utilisateur est admin -->
+        <div *ngIf="authService.hasRole('ADMIN')">
+          <label>
+            <input type="checkbox" [(ngModel)]="isAdmin" name="isAdmin" />
+            C’est un admin
+          </label>
+        </div>
+
+        <button type="submit" style="margin-top: 1rem;">S’inscrire</button>
+      </form>
+    </div>
