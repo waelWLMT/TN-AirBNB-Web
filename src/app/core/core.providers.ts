@@ -1,9 +1,9 @@
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
-import { authInterceptor } from "./http/auth.interceptor";
-import { errorInterceptor } from "./http/error.interceptor";
+import { HttpInterceptor } from "./interceptors/http.interceptor";
+import { ErrorInterceptor } from "./interceptors/error.interceptor";
 
 export const CORE_PROVIDERS = [
   provideHttpClient(
-    withInterceptors([authInterceptor, errorInterceptor])
+    withInterceptors([HttpInterceptor, ErrorInterceptor])
   )
 ];
