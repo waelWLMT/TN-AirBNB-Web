@@ -2,7 +2,7 @@
     <ul>
         <li><a routerLink="/">Home</a></li>
         <li><a routerLink="/bungalows">Bungalows</a></li>
-        <li><a routerLink="/reservations">Reservations</a></li>
+        <li><a routerLink="/reservations">Reservations</a></li>         
         <li *ngIf="authService.hasRole('ADMIN')"><a routerLink="/admin">Admin</a></li>
         <li><a (click)="logout()">Logout</a></li>
     </ul>

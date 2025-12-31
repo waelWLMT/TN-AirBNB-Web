@@ -1,15 +1,9 @@
-<div class="login-container">
-  <h2>Login</h2>
-  <form (ngSubmit)="login()">
-    <div>
-      <label>Email</label>
-      <input type="email" [(ngModel)]="email" name="email" required />
-    </div>
-    <div>
-      <label>Password</label>
-      <input type="password" [(ngModel)]="password" name="password" required />
-    </div>
-    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-    <button type="submit">Login</button>
-  </form>
-</div>
+<!--<h2>Login</h2>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <input formControlName="username" placeholder="Username" />
+  <input type="password" formControlName="password" placeholder="Password" />
+  <button type="submit">Login</button>
+</form>
+<p *ngIf="error" style="color:red;">{{ error }}</p>-->
+
+<app-login-v1></app-login-v1>

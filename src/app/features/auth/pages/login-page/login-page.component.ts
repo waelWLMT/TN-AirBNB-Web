@@ -2,30 +2,36 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../../core/services/authentication.service';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoginV1Component } from "../../components/login-v1/login-v1.component";
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, LoginV1Component],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.scss'
 })
 export class LoginPageComponent {
 
+  private auth = inject(AuthenticationService);
   private router = inject(Router);
-  public authService = inject(AuthenticationService);
 
-  email = '';
-  password = '';
-  errorMessage = '';
+  form = new FormGroup({
+    username: new FormControl(''),
+    password: new FormControl('')
+  });
 
-  login() {
-    const success = this.authService.login(this.email, this.password);
+  error: string | null = null;
+
+  submit() {
+    const { username, password } = this.form.getRawValue();
+    const success = this.auth.login(username ?? '', password ?? '');
+
     if (success) {
-      this.router.navigate(['/']); // redirection vers Home
+      this.router.navigate(['/']); // redirige vers home
     } else {
-      this.errorMessage = 'Email ou mot de passe incorrect';
+      this.error = 'Identifiants invalides';
     }
   }
 
