@@ -14,7 +14,7 @@ export const routes: Routes = [
   // Home (dashboard ou landing page)
   {
     path: '',
-    canActivate: [AuthenticationGuard],
+    //canActivate: [AuthenticationGuard],
     loadChildren: () =>
       import('./features/home/home.routes').then(m => m.HOME_ROUTES)
   },
