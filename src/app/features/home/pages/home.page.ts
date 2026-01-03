@@ -10,11 +10,5 @@ import { AuthenticationService } from "../../../core/services/authentication.ser
   styleUrl: './home.page.scss'
 })
 export class HomePage {
-  public authService = inject(AuthenticationService);
-  private router = inject(Router);
-
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
+  
 }
