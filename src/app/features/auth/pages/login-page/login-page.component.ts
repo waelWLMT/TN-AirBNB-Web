@@ -24,9 +24,9 @@ export class LoginPageComponent {
 
   error: string | null = null;
 
-  submit() {
-    const { username, password } = this.form.getRawValue();
-    const success = this.auth.login(username ?? '', password ?? '');
+  authenticate(authodel: any) {    
+    //const { username, password } = this.form.getRawValue();
+    const success = this.auth.login(authodel.mail ?? '', authodel.pwd ?? '');
 
     if (success) {
       this.router.navigate(['/']); // redirige vers home
@@ -34,6 +34,4 @@ export class LoginPageComponent {
       this.error = 'Identifiants invalides';
     }
   }
-
-
 }

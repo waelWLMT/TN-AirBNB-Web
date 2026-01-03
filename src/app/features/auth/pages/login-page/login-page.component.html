@@ -1,9 +1,1 @@
-<!--<h2>Login</h2>
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <input formControlName="username" placeholder="Username" />
-  <input type="password" formControlName="password" placeholder="Password" />
-  <button type="submit">Login</button>
-</form>
-<p *ngIf="error" style="color:red;">{{ error }}</p>-->
-
-<app-login-v1></app-login-v1>
+<app-login-v1 (authenticationEmmiter)="authenticate($event)"></app-login-v1>
