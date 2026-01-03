@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LayoutComponent } from './core/layout/layout.component';
 
@@ -9,6 +9,12 @@ import { LayoutComponent } from './core/layout/layout.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   title = 'TN-AirBNB-Web';
+
+
+   ngAfterViewInit(): void {
+    import('admin-lte');
+  }
+
 }
