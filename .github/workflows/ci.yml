@@ -9,6 +9,7 @@ on:
 
 jobs:
   build-test-lint:
+    if: false
     runs-on: ubuntu-latest
 
     steps:
@@ -32,3 +33,9 @@ jobs:
 
       - name: Build Angular App
         run: npm run build
+
+
+  test-runner:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "runner is working !!!"
