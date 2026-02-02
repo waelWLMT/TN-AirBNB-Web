@@ -4,65 +4,39 @@ on:
   pull_request:
     branches:
       - develop
-    types: [closed] # uniquement quand la PR est mergée
+    types: [closed] # uniquement quand la PR est mergé
+      
 
 jobs:
   build-test-lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'npm'
-
       - run: npm ci
       - run: npm run lint
       - run: npm run test -- --watch=false --browsers=ChromeHeadless
       - run: npm run build -- --configuration production
 
-  docker-artifact:     
+  upload-artifact:
     needs: build-test-lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      # Login GHCR
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+      - name: Upload Angular artifact
+        uses: actions/upload-artifact@v4
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      # Build & push Docker image
-      - name: Build & push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ghcr.io/${{ github.repository_owner }}/angular-app:develop
+          name: angular-dist
+          path: dist/
 
   deploy-integration:
-    if: false
-    needs: docker-artifact
+    needs: upload-artifact
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Integration Environment
-        uses: appleboy/ssh-action@v0.1.9
-        with:
-          host: ${{ secrets.INTEGRATION_HOST }}
-          username: ${{ secrets.INTEGRATION_USER }}
-          key: ${{ secrets.INTEGRATION_KEY }}
-          script: |
-            # Pull latest Docker image
-            docker pull ghcr.io/${{ github.repository_owner }}/angular-app:develop
-
-            # Stop old container if exists
-            docker stop angular-app || true
-            docker rm angular-app || true
-
-            # Run new container
-            docker run -d -p 80:80 --name angular-app ghcr.io/${{ github.repository_owner }}/angular-app:develop
+        run: |
+          echo "ici ton script pour déployer sur l'environnement d'intégration"
