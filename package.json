@@ -43,6 +43,8 @@
     "@types/jest": "^30.0.0",
     "@types/jquery": "^3.5.33",
     "@types/mocha": "^10.0.10",
+    "angular-eslint": "21.0.1",
+    "eslint": "^9.39.1",
     "jasmine-core": "~5.1.0",
     "jest": "^29.7.0",
     "karma": "~6.4.0",
@@ -51,6 +53,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "mocha": "^11.7.5",
-    "typescript": "5.5"
+    "typescript": "5.5",
+    "typescript-eslint": "8.46.4"
   }
 }
