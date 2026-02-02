@@ -8,10 +8,8 @@ on:
       - hotfix/**  
 
 jobs:
-  build-test-lint:
-    if: false
+  build-test-lint:    
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -35,7 +33,4 @@ jobs:
         run: npm run build
 
 
-  test-runner:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "runner is working !!!"
+ 
