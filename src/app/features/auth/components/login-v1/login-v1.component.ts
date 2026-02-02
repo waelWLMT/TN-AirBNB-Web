@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { AuthModel } from '../../models/auth.model';
 
 @Component({
   selector: 'app-login-v1',
@@ -12,7 +13,7 @@ export class LoginV1Component {
 
 
   @Output()
-  authenticationEmmiter!: EventEmitter<any>;
+  authenticationEmmiter!: EventEmitter<AuthModel>;
   
   public authModel = {
     mail: '',

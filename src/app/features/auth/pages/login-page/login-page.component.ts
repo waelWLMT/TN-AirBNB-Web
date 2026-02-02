@@ -4,6 +4,7 @@ import { AuthenticationService } from '../../../../core/services/authentication.
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginV1Component } from "../../components/login-v1/login-v1.component";
+import { AuthModel } from '../../models/auth.model';
 
 @Component({
   selector: 'app-login-page',
@@ -24,9 +25,9 @@ export class LoginPageComponent {
 
   error: string | null = null;
 
-  authenticate(authodel: any) {    
+  authenticate(authmodel: AuthModel) {    
     //const { username, password } = this.form.getRawValue();
-    const success = this.auth.login(authodel.mail ?? '', authodel.pwd ?? '');
+    const success = this.auth.login(authmodel.mail ?? '', authmodel.pwd ?? '');
 
     if (success) {
       this.router.navigate(['/']); // redirige vers home
