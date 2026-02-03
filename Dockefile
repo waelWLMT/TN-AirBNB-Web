@@ -1,46 +1,19 @@
-# =========================
-# 1️⃣ STAGE BUILD - Builder Angular
-# =========================
-
-# On prend une image de base Node.js version 18 sur Alpine Linux
-# Node.js est nécessaire pour compiler Angular
+# Étape 1 : build Angular
 FROM node:18-alpine AS build
 
-# On définit le dossier de travail dans le conteneur
-# Tous les RUN et COPY suivants se feront dans /app
 WORKDIR /app
 
-# On copie uniquement les fichiers de dépendances pour utiliser le cache Docker
-# package.json + package-lock.json
 COPY package*.json ./
-
-# On installe toutes les dépendances exactement comme dans package-lock.json
-# npm ci est plus fiable que npm install pour CI/CD
 RUN npm ci
 
-# On copie tout le reste du projet dans /app
-# (src, angular.json, assets, etc.)
 COPY . .
 
-# On build l'application Angular en production
-# Résultat : génération du dossier dist/nom-du-projet avec les fichiers optimisés
-RUN npm run build -- --configuration=production
+# Angular build
+RUN npm run build -- --configuration production
 
-# =========================
-# 2️⃣ STAGE RUNTIME - Serveur Nginx
-# =========================
-
-# On prend une image Nginx légère (Alpine Linux)
-# Node.js n'est plus nécessaire ici
+# Étape 2 : serveur Nginx
 FROM nginx:alpine
+COPY --from=build /app/dist/tn-airbnb-web /usr/share/nginx/html
 
-# On copie le build Angular (dist/) depuis le stage build
-# vers le dossier où Nginx sert les fichiers
-COPY --from=build /app/dist/nom-du-projet /usr/share/nginx/html
-
-# On expose le port 80 pour indiquer que le conteneur écoute sur ce port
 EXPOSE 80
-
-# Commande lancée au démarrage du conteneur
-# "daemon off;" permet à Nginx de rester au premier plan
 CMD ["nginx", "-g", "daemon off;"]
