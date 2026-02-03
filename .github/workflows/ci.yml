@@ -8,7 +8,7 @@ on:
       - hotfix/**  
 
 jobs:
-  build-test-lint:    
+  ci:    
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
