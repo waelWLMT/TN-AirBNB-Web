@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - develop
-    types: [closed] # uniquement quand la PR est mergée
+    types: [closed]
 
 jobs:
   ci-cd:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2️⃣ Setup Node.js
+      # 2️⃣ Node.js setup (pour lint & tests)
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
