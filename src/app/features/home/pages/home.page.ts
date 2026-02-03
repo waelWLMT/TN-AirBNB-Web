@@ -1,6 +1,4 @@
-import { Component, inject } from "@angular/core";
-import { RouterLink, Router } from "@angular/router";
-import { AuthenticationService } from "../../../core/services/authentication.service";
+import { Component } from "@angular/core";
 
 @Component({
   standalone: true,

@@ -1,5 +1,5 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, CanLoadFn, Router, Route, UrlSegment } from '@angular/router';
+import { CanActivateFn, CanLoadFn, Router } from '@angular/router';
 import { AuthenticationService } from '../services/authentication.service';
 
 const checkAdmin = (): boolean => {
@@ -20,7 +20,8 @@ export const adminGuard: CanActivateFn = () => {
   return true;
 };
 
-export const adminLoadGuard: CanLoadFn = (route: Route, segments: UrlSegment[]) => {
+export const adminLoadGuard: CanLoadFn = () => {
+  
   if (!checkAdmin()) {
     // empêche le module de se charger et redirige vers home
     setTimeout(() => {

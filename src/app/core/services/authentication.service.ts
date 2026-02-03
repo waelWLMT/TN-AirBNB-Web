@@ -24,6 +24,7 @@ export class AuthenticationService {
       email,
       role: email === 'admin@test.com' ? 'ADMIN' : 'USER'
     };
+    console.log(password);
 
     localStorage.setItem('user', JSON.stringify(mockUser));
     this._user.set(mockUser);
