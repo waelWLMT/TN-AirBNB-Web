@@ -6,6 +6,10 @@ on:
       - develop
     types: [closed]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   ci-cd:
     runs-on: ubuntu-latest
