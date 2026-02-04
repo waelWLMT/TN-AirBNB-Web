@@ -1,6 +1,10 @@
 name: CI/CD - Angular + Docker (GHCR)
 
 on:
+  push:
+    branches:
+      - develop
+
   pull_request:
     branches:
       - develop
@@ -44,8 +48,9 @@ jobs:
 
       # 7️⃣ Login GHCR
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
+          registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
