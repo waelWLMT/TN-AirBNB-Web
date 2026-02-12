@@ -72,19 +72,12 @@ jobs:
     
   continuous-deploy:
     needs: continuous-integration
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
-      # 1️⃣ Déployer via SSH avec Docker Compose
-      - name: Deploy Docker container on Windows via SSH
-        uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          password: ${{ secrets.SERVER_PASSWORD }}
-          port: 22
-          script: |
-            cd C:/Users/wael-pc/tn-airbnb-web
-            docker-compose pull
-            docker-compose down
-            docker-compose up -d
+      - name: Deploy Docker Compose locally
+        run: |
+              cd C:/Users/wael-pc/tn-airbnb-web
+              docker-compose pull
+              docker-compose down
+              docker-compose up -d
