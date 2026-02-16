@@ -68,48 +68,45 @@ jobs:
 
           # Push Docker image to GHCR
           docker push ghcr.io/$OWNER/tn-airbnb-web:latest
-          docker push ghcr.io/$OWNER/tn-airbnb-web:${GITHUB_SHA}   
-    
+          docker push ghcr.io/$OWNER/tn-airbnb-web:${GITHUB_SHA} 
+
+
+
   continuous-deploy:
-    name: continuous-deploy
+    needs: continuous-integration
     runs-on: self-hosted
-    needs : continuous-integration
 
     steps:
-      - name: Pull latest image from GHCR
-        shell: bash
-        run: |
-          set -e
-          OWNER=$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')
-          echo "Pulling image ghcr.io/$OWNER/tn-airbnb-web:latest"
-          docker pull ghcr.io/$OWNER/tn-airbnb-web:latest
+    - name: Pull latest image from GHCR
+      shell: pwsh
+      run: |
+        $OWNER = "${env:GITHUB_REPOSITORY_OWNER}".ToLower()
+        Write-Host "Pulling image ghcr.io/$OWNER/tn-airbnb-web:latest"
+        docker pull ghcr.io/$OWNER/tn-airbnb-web:latest
 
-      - name: Stop and remove existing container
-        shell: bash
-        run: |
-          docker stop tn-airbnb-web 2>/dev/null || true
-          docker rm tn-airbnb-web 2>/dev/null || true
+    - name: Stop and remove existing container
+      shell: pwsh
+      run: |
+        docker stop tn-airbnb-web 2>$null
+        docker rm tn-airbnb-web 2>$null
 
-      - name: Run new container
-        shell: bash
-        run: |
-          OWNER=$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')
-          echo "Starting new container..."
-          docker run -d \
-          -p 8080:80 \
-          --restart unless-stopped \
-          --name tn-airbnb-web \
+    - name: Run new container
+      shell: pwsh
+      run: |
+        $OWNER = "${env:GITHUB_REPOSITORY_OWNER}".ToLower()
+        Write-Host "Starting new container..."
+        docker run -d `
+          -p 8080:80 `
+          --restart unless-stopped `
+          --name tn-airbnb-web `
           ghcr.io/$OWNER/tn-airbnb-web:latest
 
-      - name: Verify running container
-        run: docker ps | grep tn-airbnb-web || (echo "Container not running!" && exit 1)
-
-
-
-
-
-
-
+    - name: Verify running container
+      shell: pwsh
+      run: |
+        docker ps | Select-String tn-airbnb-web
+        if ($LASTEXITCODE -ne 0) { throw "Container is not running" }  
+  
 
     # needs: continuous-integration
     # runs-on: self-hosted
