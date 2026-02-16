@@ -71,13 +71,43 @@ jobs:
           docker push ghcr.io/$OWNER/tn-airbnb-web:${GITHUB_SHA}   
     
   continuous-deploy:
-    needs: continuous-integration
+    name: continuous-deploy
     runs-on: self-hosted
+    needs : continuous-integration
 
     steps:
-      - name: Deploy Docker Compose locally
+      - name: Pull latest image from GHCR
         run: |
-              cd C:/Users/wael-pc/tn-airbnb-web
-              docker-compose pull
-              docker-compose down
-              docker-compose up -d
+            docker pull ghcr.io/${{ GITHUB_REPOSITORY_OWNER }}/tn-airbnb-web:latest
+
+      - name: Stop and remove existing Container
+        run: |
+            docker stop tn-airbnb-web || exit 0
+            docker rm tn-airbnb-web || exit 0
+
+      - name: Run new container
+        run: docker run -d  -p 8080:80 --restart unless-stopped --name tn-airbnb-web ghcr.io/${{ GITHUB_REPOSITORY_OWNER }}/tn-airbnb-web:latest
+
+      - name: Verify running container
+        run: docker ps
+
+
+
+
+
+
+
+
+    # needs: continuous-integration
+    # runs-on: self-hosted
+
+    # steps:
+    #   - name: Deploy Docker Compose locally
+    #     run: |
+    #           cd C:/Users/wael-pc/tn-airbnb-web
+    #           docker-compose pull
+    #           docker-compose down
+    #           docker-compose up -d
+
+
+    
