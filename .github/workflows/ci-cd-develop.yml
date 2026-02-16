@@ -78,7 +78,7 @@ jobs:
     steps:
       - name: Pull latest image from GHCR
         run: |
-            docker pull ghcr.io/${{ GITHUB_REPOSITORY_OWNER }}/tn-airbnb-web:latest
+            docker pull ghcr.io/${{ github.repository_owner }}/tn-airbnb-web:latest
 
       - name: Stop and remove existing Container
         run: |
@@ -86,7 +86,7 @@ jobs:
             docker rm tn-airbnb-web || exit 0
 
       - name: Run new container
-        run: docker run -d  -p 8080:80 --restart unless-stopped --name tn-airbnb-web ghcr.io/${{ GITHUB_REPOSITORY_OWNER }}/tn-airbnb-web:latest
+        run: docker run -d  -p 8080:80 --restart unless-stopped --name tn-airbnb-web ghcr.io/${{ github.repository_owner }}/tn-airbnb-web:latest
 
       - name: Verify running container
         run: docker ps
