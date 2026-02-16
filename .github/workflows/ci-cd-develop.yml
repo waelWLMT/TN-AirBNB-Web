@@ -77,19 +77,32 @@ jobs:
 
     steps:
       - name: Pull latest image from GHCR
+        shell: bash
         run: |
-            docker pull ghcr.io/${{ github.repository_owner }}/tn-airbnb-web:latest
+          set -e
+          OWNER=$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')
+          echo "Pulling image ghcr.io/$OWNER/tn-airbnb-web:latest"
+          docker pull ghcr.io/$OWNER/tn-airbnb-web:latest
 
-      - name: Stop and remove existing Container
+      - name: Stop and remove existing container
+        shell: bash
         run: |
-            docker stop tn-airbnb-web || exit 0
-            docker rm tn-airbnb-web || exit 0
+          docker stop tn-airbnb-web 2>/dev/null || true
+          docker rm tn-airbnb-web 2>/dev/null || true
 
       - name: Run new container
-        run: docker run -d  -p 8080:80 --restart unless-stopped --name tn-airbnb-web ghcr.io/${{ github.repository_owner }}/tn-airbnb-web:latest
+        shell: bash
+        run: |
+          OWNER=$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')
+          echo "Starting new container..."
+          docker run -d \
+          -p 8080:80 \
+          --restart unless-stopped \
+          --name tn-airbnb-web \
+          ghcr.io/$OWNER/tn-airbnb-web:latest
 
       - name: Verify running container
-        run: docker ps
+        run: docker ps | grep tn-airbnb-web || (echo "Container not running!" && exit 1)
 
 
 
