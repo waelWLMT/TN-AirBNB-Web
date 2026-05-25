@@ -12,8 +12,8 @@ import { AuthModel } from '../../models/auth.model';
 export class LoginV1Component {
 
 
-  @Output()
-  authenticationEmmiter!: EventEmitter<AuthModel>;
+  @Output()  
+  authenticationEmmiter = new EventEmitter<AuthModel>();
   
   public authModel = {
     mail: '',
